@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.finalwork.mapper.TTeachMapper">
+  <resultMap id="BaseResultMap" type="com.example.finalwork.view.TTeach">
+    <id column="teachID" jdbcType="INTEGER" property="teachid" />
+    <result column="teacherID" jdbcType="INTEGER" property="teacherid" />
+    <result column="courseID" jdbcType="INTEGER" property="courseid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    teachID, teacherID, courseID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_teach
+    where teachID = #{teachid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_teach
+    where teachID = #{teachid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.finalwork.view.TTeach">
+    insert into t_teach (teachID, teacherID, courseID
+      )
+    values (#{teachid,jdbcType=INTEGER}, #{teacherid,jdbcType=INTEGER}, #{courseid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.finalwork.view.TTeach">
+    insert into t_teach
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teachid != null">
+        teachID,
+      </if>
+      <if test="teacherid != null">
+        teacherID,
+      </if>
+      <if test="courseid != null">
+        courseID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teachid != null">
+        #{teachid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null">
+        #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="courseid != null">
+        #{courseid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.finalwork.view.TTeach">
+    update t_teach
+    <set>
+      <if test="teacherid != null">
+        teacherID = #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="courseid != null">
+        courseID = #{courseid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where teachID = #{teachid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.finalwork.view.TTeach">
+    update t_teach
+    set teacherID = #{teacherid,jdbcType=INTEGER},
+      courseID = #{courseid,jdbcType=INTEGER}
+    where teachID = #{teachid,jdbcType=INTEGER}
+  </update>
+</mapper>

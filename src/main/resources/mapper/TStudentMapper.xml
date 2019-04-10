@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.finalwork.mapper.TStudentMapper">
+  <resultMap id="BaseResultMap" type="com.example.finalwork.view.TStudent">
+    <id column="studentID" jdbcType="INTEGER" property="studentid" />
+    <result column="studentPhoto" jdbcType="VARCHAR" property="studentphoto" />
+    <result column="studentNickName" jdbcType="VARCHAR" property="studentnickname" />
+    <result column="studentIdentityID" jdbcType="VARCHAR" property="studentidentityid" />
+    <result column="studentRealName" jdbcType="VARCHAR" property="studentrealname" />
+    <result column="studentSex" jdbcType="VARCHAR" property="studentsex" />
+    <result column="studentPassword" jdbcType="VARCHAR" property="studentpassword" />
+    <result column="studentPhone" jdbcType="VARCHAR" property="studentphone" />
+    <result column="studentAdress" jdbcType="VARCHAR" property="studentadress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    studentID, studentPhoto, studentNickName, studentIdentityID, studentRealName, studentSex, 
+    studentPassword, studentPhone, studentAdress
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_student
+    where studentID = #{studentid,jdbcType=INTEGER}
+  </select>
+  <select id="studentLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_student
+    where studentPhone = #{studentphone,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_student
+    where studentID = #{studentid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.finalwork.view.TStudent">
+    insert into t_student (studentID, studentPhoto, studentNickName, 
+      studentIdentityID, studentRealName, studentSex, 
+      studentPassword, studentPhone, studentAdress
+      )
+    values (#{studentid,jdbcType=INTEGER}, #{studentphoto,jdbcType=VARCHAR}, #{studentnickname,jdbcType=VARCHAR}, 
+      #{studentidentityid,jdbcType=VARCHAR}, #{studentrealname,jdbcType=VARCHAR}, #{studentsex,jdbcType=VARCHAR}, 
+      #{studentpassword,jdbcType=VARCHAR}, #{studentphone,jdbcType=VARCHAR}, #{studentadress,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.finalwork.view.TStudent">
+    insert into t_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        studentID,
+      </if>
+      <if test="studentphoto != null">
+        studentPhoto,
+      </if>
+      <if test="studentnickname != null">
+        studentNickName,
+      </if>
+      <if test="studentidentityid != null">
+        studentIdentityID,
+      </if>
+      <if test="studentrealname != null">
+        studentRealName,
+      </if>
+      <if test="studentsex != null">
+        studentSex,
+      </if>
+      <if test="studentpassword != null">
+        studentPassword,
+      </if>
+      <if test="studentphone != null">
+        studentPhone,
+      </if>
+      <if test="studentadress != null">
+        studentAdress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentid != null">
+        #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="studentphoto != null">
+        #{studentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnickname != null">
+        #{studentnickname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentidentityid != null">
+        #{studentidentityid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentrealname != null">
+        #{studentrealname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentsex != null">
+        #{studentsex,jdbcType=VARCHAR},
+      </if>
+      <if test="studentpassword != null">
+        #{studentpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="studentphone != null">
+        #{studentphone,jdbcType=VARCHAR},
+      </if>
+      <if test="studentadress != null">
+        #{studentadress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.finalwork.view.TStudent">
+    update t_student
+    <set>
+      <if test="studentphoto != null">
+        studentPhoto = #{studentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnickname != null">
+        studentNickName = #{studentnickname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentidentityid != null">
+        studentIdentityID = #{studentidentityid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentrealname != null">
+        studentRealName = #{studentrealname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentsex != null">
+        studentSex = #{studentsex,jdbcType=VARCHAR},
+      </if>
+      <if test="studentpassword != null">
+        studentPassword = #{studentpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="studentphone != null">
+        studentPhone = #{studentphone,jdbcType=VARCHAR},
+      </if>
+      <if test="studentadress != null">
+        studentAdress = #{studentadress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where studentID = #{studentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.finalwork.view.TStudent">
+    update t_student
+    set studentPhoto = #{studentphoto,jdbcType=VARCHAR},
+      studentNickName = #{studentnickname,jdbcType=VARCHAR},
+      studentIdentityID = #{studentidentityid,jdbcType=VARCHAR},
+      studentRealName = #{studentrealname,jdbcType=VARCHAR},
+      studentSex = #{studentsex,jdbcType=VARCHAR},
+      studentPassword = #{studentpassword,jdbcType=VARCHAR},
+      studentPhone = #{studentphone,jdbcType=VARCHAR},
+      studentAdress = #{studentadress,jdbcType=VARCHAR}
+    where studentID = #{studentid,jdbcType=INTEGER}
+  </update>
+</mapper>

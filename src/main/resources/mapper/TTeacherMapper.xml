@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.finalwork.mapper.TTeacherMapper">
+  <resultMap id="BaseResultMap" type="com.example.finalwork.view.TTeacher">
+    <id column="teacherID" jdbcType="INTEGER" property="teacherid" />
+    <result column="teacherPhoto" jdbcType="VARCHAR" property="teacherphoto" />
+    <result column="teacherNickName" jdbcType="VARCHAR" property="teachernickname" />
+    <result column="teacherRealName" jdbcType="VARCHAR" property="teacherrealname" />
+    <result column="teacherIdentityID" jdbcType="VARCHAR" property="teacheridentityid" />
+    <result column="teacherSex" jdbcType="VARCHAR" property="teachersex" />
+    <result column="teacherEducationBackground" jdbcType="VARCHAR" property="teachereducationbackground" />
+    <result column="teacherJoinTime" jdbcType="DATE" property="teacherjointime" />
+    <result column="teacherBirthDay" jdbcType="DATE" property="teacherbirthday" />
+    <result column="teacherPhone" jdbcType="VARCHAR" property="teacherphone" />
+    <result column="teacherAdress" jdbcType="VARCHAR" property="teacheradress" />
+    <result column="teacherIntroduce" jdbcType="VARCHAR" property="teacherintroduce" />
+    <result column="teacherPassword" jdbcType="VARCHAR" property="teacherpassword" />
+    <result column="teacherGrade" jdbcType="INTEGER" property="teachergrade" />
+    <result column="teacherEstimate" jdbcType="REAL" property="teacherestimate" />
+  </resultMap>
+  <resultMap id="TCoureseVOResultMap" type="com.example.finalwork.vo.TCourseVO">
+    <id column="teachID" jdbcType="INTEGER" property="tTeach.teachid" />
+    <result column="teacherID" jdbcType="INTEGER" property="tTeach.teacherid" />
+    <result column="courseID" jdbcType="INTEGER" property="tTeach.courseid" />
+
+    <result column="courseId" jdbcType="INTEGER" property="tCourse.courseid" />
+    <result column="courseName" jdbcType="VARCHAR" property="tCourse.coursename" />
+    <result column="courseCondition" jdbcType="VARCHAR" property="tCourse.coursecondition" />
+    <result column="courseSalary" jdbcType="VARCHAR" property="tCourse.coursesalary" />
+    <result column="courseCate" jdbcType="DATE" property="tCourse.coursecate" />
+    <result column="courseInstruction" jdbcType="VARCHAR" property="tCourse.courseinstruction" />
+
+    <result column="teacherID" jdbcType="INTEGER" property="tTeacher.teacherid" />
+    <result column="teacherPhoto" jdbcType="VARCHAR" property="tTeacher.teacherphoto" />
+    <result column="teacherNickName" jdbcType="VARCHAR" property="tTeacher.teachernickname" />
+    <result column="teacherRealName" jdbcType="VARCHAR" property="tTeacher.teacherrealname" />
+    <result column="teacherIdentityID" jdbcType="VARCHAR" property="tTeacher.teacheridentityid" />
+    <result column="teacherSex" jdbcType="VARCHAR" property="tTeacher.teachersex" />
+    <result column="teacherEducationBackground" jdbcType="VARCHAR" property="tTeacher.teachereducationbackground" />
+    <result column="teacherJoinTime" jdbcType="DATE" property="tTeacher.teacherjointime" />
+    <result column="teacherBirthDay" jdbcType="DATE" property="tTeacher.teacherbirthday" />
+    <result column="teacherPhone" jdbcType="VARCHAR" property="tTeacher.teacherphone" />
+    <result column="teacherAdress" jdbcType="VARCHAR" property="tTeacher.teacheradress" />
+    <result column="teacherIntroduce" jdbcType="VARCHAR" property="tTeacher.teacherintroduce" />
+    <result column="teacherPassword" jdbcType="VARCHAR" property="tTeacher.teacherpassword" />
+    <result column="teacherGrade" jdbcType="INTEGER" property="tTeacher.teachergrade" />
+    <result column="teacherEstimate" jdbcType="REAL" property="tTeacher.teacherestimate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    teacherID, teacherPhoto, teacherNickName, teacherRealName, teacherIdentityID, teacherSex, 
+    teacherEducationBackground, teacherJoinTime, teacherBirthDay, teacherPhone, teacherAdress, 
+    teacherIntroduce, teacherPassword, teacherGrade, teacherEstimate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where teacherID = #{teacherid,jdbcType=INTEGER}
+  </select>
+  <select id="teacherLogin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where teacherPhone = #{teacherphone,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEstimate" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where teacherEstimate > 0.8
+  </select>
+  <select id="selectByJoinTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where date_format(teacherJoinTime,'%Y-%m')=date_format(now(),'%Y-%m')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_teacher
+    where teacherID = #{teacherid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.finalwork.view.TTeacher">
+    insert into t_teacher (teacherID, teacherPhoto, teacherNickName, 
+      teacherRealName, teacherIdentityID, teacherSex, 
+      teacherEducationBackground, teacherJoinTime, 
+      teacherBirthDay, teacherPhone, teacherAdress, 
+      teacherIntroduce, teacherPassword, teacherGrade, 
+      teacherEstimate)
+    values (#{teacherid,jdbcType=INTEGER}, #{teacherphoto,jdbcType=VARCHAR}, #{teachernickname,jdbcType=VARCHAR}, 
+      #{teacherrealname,jdbcType=VARCHAR}, #{teacheridentityid,jdbcType=VARCHAR}, #{teachersex,jdbcType=VARCHAR}, 
+      #{teachereducationbackground,jdbcType=VARCHAR}, #{teacherjointime,jdbcType=DATE}, 
+      #{teacherbirthday,jdbcType=DATE}, #{teacherphone,jdbcType=VARCHAR}, #{teacheradress,jdbcType=VARCHAR}, 
+      #{teacherintroduce,jdbcType=VARCHAR}, #{teacherpassword,jdbcType=VARCHAR}, #{teachergrade,jdbcType=INTEGER}, 
+      #{teacherestimate,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.finalwork.view.TTeacher">
+    insert into t_teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teacherid != null">
+        teacherID,
+      </if>
+      <if test="teacherphoto != null">
+        teacherPhoto,
+      </if>
+      <if test="teachernickname != null">
+        teacherNickName,
+      </if>
+      <if test="teacherrealname != null">
+        teacherRealName,
+      </if>
+      <if test="teacheridentityid != null">
+        teacherIdentityID,
+      </if>
+      <if test="teachersex != null">
+        teacherSex,
+      </if>
+      <if test="teachereducationbackground != null">
+        teacherEducationBackground,
+      </if>
+      <if test="teacherjointime != null">
+        teacherJoinTime,
+      </if>
+      <if test="teacherbirthday != null">
+        teacherBirthDay,
+      </if>
+      <if test="teacherphone != null">
+        teacherPhone,
+      </if>
+      <if test="teacheradress != null">
+        teacherAdress,
+      </if>
+      <if test="teacherintroduce != null">
+        teacherIntroduce,
+      </if>
+      <if test="teacherpassword != null">
+        teacherPassword,
+      </if>
+      <if test="teachergrade != null">
+        teacherGrade,
+      </if>
+      <if test="teacherestimate != null">
+        teacherEstimate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teacherid != null">
+        #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherphoto != null">
+        #{teacherphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernickname != null">
+        #{teachernickname,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherrealname != null">
+        #{teacherrealname,jdbcType=VARCHAR},
+      </if>
+      <if test="teacheridentityid != null">
+        #{teacheridentityid,jdbcType=VARCHAR},
+      </if>
+      <if test="teachersex != null">
+        #{teachersex,jdbcType=VARCHAR},
+      </if>
+      <if test="teachereducationbackground != null">
+        #{teachereducationbackground,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherjointime != null">
+        #{teacherjointime,jdbcType=DATE},
+      </if>
+      <if test="teacherbirthday != null">
+        #{teacherbirthday,jdbcType=DATE},
+      </if>
+      <if test="teacherphone != null">
+        #{teacherphone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacheradress != null">
+        #{teacheradress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherintroduce != null">
+        #{teacherintroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherpassword != null">
+        #{teacherpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="teachergrade != null">
+        #{teachergrade,jdbcType=INTEGER},
+      </if>
+      <if test="teacherestimate != null">
+        #{teacherestimate,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.finalwork.view.TTeacher">
+    update t_teacher
+    <set>
+      <if test="teacherphoto != null">
+        teacherPhoto = #{teacherphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernickname != null">
+        teacherNickName = #{teachernickname,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherrealname != null">
+        teacherRealName = #{teacherrealname,jdbcType=VARCHAR},
+      </if>
+      <if test="teacheridentityid != null">
+        teacherIdentityID = #{teacheridentityid,jdbcType=VARCHAR},
+      </if>
+      <if test="teachersex != null">
+        teacherSex = #{teachersex,jdbcType=VARCHAR},
+      </if>
+      <if test="teachereducationbackground != null">
+        teacherEducationBackground = #{teachereducationbackground,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherjointime != null">
+        teacherJoinTime = #{teacherjointime,jdbcType=DATE},
+      </if>
+      <if test="teacherbirthday != null">
+        teacherBirthDay = #{teacherbirthday,jdbcType=DATE},
+      </if>
+      <if test="teacherphone != null">
+        teacherPhone = #{teacherphone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacheradress != null">
+        teacherAdress = #{teacheradress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherintroduce != null">
+        teacherIntroduce = #{teacherintroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherpassword != null">
+        teacherPassword = #{teacherpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="teachergrade != null">
+        teacherGrade = #{teachergrade,jdbcType=INTEGER},
+      </if>
+      <if test="teacherestimate != null">
+        teacherEstimate = #{teacherestimate,jdbcType=REAL},
+      </if>
+    </set>
+    where teacherID = #{teacherid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.finalwork.view.TTeacher">
+    update t_teacher
+    set teacherPhoto = #{teacherphoto,jdbcType=VARCHAR},
+      teacherNickName = #{teachernickname,jdbcType=VARCHAR},
+      teacherRealName = #{teacherrealname,jdbcType=VARCHAR},
+      teacherIdentityID = #{teacheridentityid,jdbcType=VARCHAR},
+      teacherSex = #{teachersex,jdbcType=VARCHAR},
+      teacherEducationBackground = #{teachereducationbackground,jdbcType=VARCHAR},
+      teacherJoinTime = #{teacherjointime,jdbcType=DATE},
+      teacherBirthDay = #{teacherbirthday,jdbcType=DATE},
+      teacherPhone = #{teacherphone,jdbcType=VARCHAR},
+      teacherAdress = #{teacheradress,jdbcType=VARCHAR},
+      teacherIntroduce = #{teacherintroduce,jdbcType=VARCHAR},
+      teacherPassword = #{teacherpassword,jdbcType=VARCHAR},
+      teacherGrade = #{teachergrade,jdbcType=INTEGER},
+      teacherEstimate = #{teacherestimate,jdbcType=REAL}
+    where teacherID = #{teacherid,jdbcType=INTEGER}
+  </update>
+</mapper>

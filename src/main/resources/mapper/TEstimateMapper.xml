@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.finalwork.mapper.TEstimateMapper">
+  <resultMap id="BaseResultMap" type="com.example.finalwork.view.TEstimate">
+    <id column="estimateID" jdbcType="INTEGER" property="estimateid" />
+    <result column="studentID" jdbcType="INTEGER" property="studentid" />
+    <result column="courseID" jdbcType="INTEGER" property="courseid" />
+    <result column="estimateGrade" jdbcType="VARCHAR" property="estimategrade" />
+    <result column="estimateContent" jdbcType="VARCHAR" property="estimatecontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    estimateID, studentID, courseID, estimateGrade, estimateContent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_estimate
+    where estimateID = #{estimateid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_estimate
+    where estimateID = #{estimateid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.finalwork.view.TEstimate">
+    insert into t_estimate (estimateID, studentID, courseID, 
+      estimateGrade, estimateContent)
+    values (#{estimateid,jdbcType=INTEGER}, #{studentid,jdbcType=INTEGER}, #{courseid,jdbcType=INTEGER}, 
+      #{estimategrade,jdbcType=VARCHAR}, #{estimatecontent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.finalwork.view.TEstimate">
+    insert into t_estimate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="estimateid != null">
+        estimateID,
+      </if>
+      <if test="studentid != null">
+        studentID,
+      </if>
+      <if test="courseid != null">
+        courseID,
+      </if>
+      <if test="estimategrade != null">
+        estimateGrade,
+      </if>
+      <if test="estimatecontent != null">
+        estimateContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="estimateid != null">
+        #{estimateid,jdbcType=INTEGER},
+      </if>
+      <if test="studentid != null">
+        #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="courseid != null">
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="estimategrade != null">
+        #{estimategrade,jdbcType=VARCHAR},
+      </if>
+      <if test="estimatecontent != null">
+        #{estimatecontent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.finalwork.view.TEstimate">
+    update t_estimate
+    <set>
+      <if test="studentid != null">
+        studentID = #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="courseid != null">
+        courseID = #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="estimategrade != null">
+        estimateGrade = #{estimategrade,jdbcType=VARCHAR},
+      </if>
+      <if test="estimatecontent != null">
+        estimateContent = #{estimatecontent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where estimateID = #{estimateid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.finalwork.view.TEstimate">
+    update t_estimate
+    set studentID = #{studentid,jdbcType=INTEGER},
+      courseID = #{courseid,jdbcType=INTEGER},
+      estimateGrade = #{estimategrade,jdbcType=VARCHAR},
+      estimateContent = #{estimatecontent,jdbcType=VARCHAR}
+    where estimateID = #{estimateid,jdbcType=INTEGER}
+  </update>
+</mapper>

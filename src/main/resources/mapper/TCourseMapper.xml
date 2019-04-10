@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.finalwork.mapper.TCourseMapper">
+  <resultMap id="BaseResultMap" type="com.example.finalwork.view.TCourse">
+    <id column="courseId" jdbcType="INTEGER" property="courseid" />
+    <result column="courseName" jdbcType="VARCHAR" property="coursename" />
+    <result column="courseCondition" jdbcType="VARCHAR" property="coursecondition" />
+    <result column="courseSalary" jdbcType="VARCHAR" property="coursesalary" />
+    <result column="courseCate" jdbcType="TIMESTAMP" property="coursecate" />
+    <result column="courseInstruction" jdbcType="VARCHAR" property="courseinstruction" />
+  </resultMap>
+
+  <resultMap id="TCoureseVOResultMap" type="com.example.finalwork.vo.TCourseVO">
+    <id column="courseId" jdbcType="INTEGER" property="tCourse.courseid" />
+    <result column="courseName" jdbcType="VARCHAR" property="tCourse.coursename" />
+    <result column="courseCondition" jdbcType="VARCHAR" property="tCourse.coursecondition" />
+    <result column="courseSalary" jdbcType="VARCHAR" property="tCourse.coursesalary" />
+    <result column="courseCate" jdbcType="DATE" property="tCourse.coursecate" />
+    <result column="courseInstruction" jdbcType="VARCHAR" property="tCourse.courseinstruction" />
+
+    <result column="teachID" jdbcType="INTEGER" property="tTeach.teachid" />
+    <result column="teacherID" jdbcType="INTEGER" property="tTeach.teacherid" />
+    <result column="courseID" jdbcType="INTEGER" property="tTeach.courseid" />
+
+    <result column="teacherID" jdbcType="INTEGER" property="tTeacher.teacherid" />
+    <result column="teacherPhoto" jdbcType="VARCHAR" property="tTeacher.teacherphoto" />
+    <result column="teacherNickName" jdbcType="VARCHAR" property="tTeacher.teachernickname" />
+    <result column="teacherRealName" jdbcType="VARCHAR" property="tTeacher.teacherrealname" />
+    <result column="teacherIdentityID" jdbcType="VARCHAR" property="tTeacher.teacheridentityid" />
+    <result column="teacherSex" jdbcType="VARCHAR" property="tTeacher.teachersex" />
+    <result column="teacherEducationBackground" jdbcType="VARCHAR" property="tTeacher.teachereducationbackground" />
+    <result column="teacherJoinTime" jdbcType="DATE" property="tTeacher.teacherjointime" />
+    <result column="teacherBirthDay" jdbcType="DATE" property="tTeacher.teacherbirthday" />
+    <result column="teacherPhone" jdbcType="VARCHAR" property="tTeacher.teacherphone" />
+    <result column="teacherAdress" jdbcType="VARCHAR" property="tTeacher.teacheradress" />
+    <result column="teacherIntroduce" jdbcType="VARCHAR" property="tTeacher.teacherintroduce" />
+    <result column="teacherPassword" jdbcType="VARCHAR" property="tTeacher.teacherpassword" />
+    <result column="teacherGrade" jdbcType="INTEGER" property="tTeacher.teachergrade" />
+    <result column="teacherEstimate" jdbcType="REAL" property="tTeacher.teacherestimate" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    courseId, courseName, courseCondition, courseSalary, courseCate, courseInstruction
+  </sql>
+  <sql id="TCoureseVO_Column_List">
+    courseId, courseName, courseCondition, courseSalary, courseCate, courseInstruction, teachID, teacherID, courseID, teacherPhoto, teacherNickName, teacherRealName, teacherIdentityID, teacherSex, teacherEducationBackground, teacherJoinTime, teacherBirthDay, teacherPhone, teacherAdress, teacherIntroduce, teacherPassword, teacherGrade, teacherEstimate
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectTCourseVOByTeacherID" parameterType="java.lang.Integer" resultMap="TCoureseVOResultMap">
+    select
+    <include refid="TCoureseVO_Column_List" />
+    from t_course as a inner join t_teach as b inner join t_teacher as c on a.courseId = b.courseID and b.teacherID = c.teacherID
+    where b.teacherID = #{teacherid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectTCourseVOByStudentID" parameterType="java.lang.Integer" resultMap="TCoureseVOResultMap">
+    select
+    <include refid="TCoureseVO_Column_List" />
+    from t_course as a inner join t_teach as b inner join t_teacher as c join t_employ d on a.courseId = b.courseID and b.teacherID = c.teacherID and a.courseId = d.courseID
+    where d.studentID = #{studentid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_course
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.finalwork.view.TCourse">
+    insert into t_course (courseId, courseName, courseCondition, 
+      courseSalary, courseCate, courseInstruction
+      )
+    values (#{courseid,jdbcType=INTEGER}, #{coursename,jdbcType=VARCHAR}, #{coursecondition,jdbcType=VARCHAR}, 
+      #{coursesalary,jdbcType=VARCHAR}, #{coursecate,jdbcType=TIMESTAMP}, #{courseinstruction,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.finalwork.view.TCourse">
+    insert into t_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        courseId,
+      </if>
+      <if test="coursename != null">
+        courseName,
+      </if>
+      <if test="coursecondition != null">
+        courseCondition,
+      </if>
+      <if test="coursesalary != null">
+        courseSalary,
+      </if>
+      <if test="coursecate != null">
+        courseCate,
+      </if>
+      <if test="courseinstruction != null">
+        courseInstruction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="coursename != null">
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecondition != null">
+        #{coursecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="coursesalary != null">
+        #{coursesalary,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecate != null">
+        #{coursecate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseinstruction != null">
+        #{courseinstruction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.finalwork.view.TCourse">
+    update t_course
+    <set>
+      <if test="coursename != null">
+        courseName = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecondition != null">
+        courseCondition = #{coursecondition,jdbcType=VARCHAR},
+      </if>
+      <if test="coursesalary != null">
+        courseSalary = #{coursesalary,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecate != null">
+        courseCate = #{coursecate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseinstruction != null">
+        courseInstruction = #{courseinstruction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.finalwork.view.TCourse">
+    update t_course
+    set courseName = #{coursename,jdbcType=VARCHAR},
+      courseCondition = #{coursecondition,jdbcType=VARCHAR},
+      courseSalary = #{coursesalary,jdbcType=VARCHAR},
+      courseCate = #{coursecate,jdbcType=TIMESTAMP},
+      courseInstruction = #{courseinstruction,jdbcType=VARCHAR}
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </update>
+</mapper>
